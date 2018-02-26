@@ -1,0 +1,8 @@
+<center><h1><font face="Arial" color="blue" size="6"><b>Task Details</b></font></h1>	
+<hr size="4" color="green"><table cellpadding="6" cellspacing="6">
+<tr><td><font face="Arial" color="red" size="3"><b>Title</b></font></td><td><font face="Arial" color="red" size="3"><b>Description</b></font></td></tr>
+
+<tr><td><%= @project.title %></td><td><%= @project.desc %></td></tr>
+</table>
+<%= link_to "Back", {:controller => 'project', :action => 'index'} %>
+</center>
