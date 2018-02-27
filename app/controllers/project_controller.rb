@@ -17,7 +17,7 @@ def edit
  	@project = Proj.find_by_id(params[:id])
 end
 def update
-	@project=Proj.find_by(params[:id])
+	@project=Proj.find(params[:id])
 	if @project.update_attributes(add_params)
 		flash[:notice] = 'Your Details Successfully Updated!'
 		redirect_to root_path
@@ -28,7 +28,7 @@ def update
 end
 
 def destroy
-	@project=Proj.find_by(params[:id])
+	@project=Proj.find(params[:id])
 	flash[:alert] = 'not deleted!'
 	if @project.destroy
 		flash[:alert] = 'Deleted'
@@ -40,14 +40,18 @@ def destroy
 end
 def new
 	@project=Proj.new
+	#@project=Proj.tasks.build
 end 
   def show
+ 
 	@project=Proj.find_by(id: params[:id])
+
+
   end
 
   
 def add_params
-	params.require(:proj).permit(:title, :desc)
+	params.require(:proj).permit(:title, :desc, :id, :tasks_attributes => [:id, :title, :desc, :duration, :_destroy])
 
 end
 end
