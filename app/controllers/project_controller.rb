@@ -27,8 +27,8 @@ def update
 	end
 end
 def alltask
-	@project=Proj.all
 	@project=Proj.new
+	@projects=Proj.all
 end
 
 def destroy
@@ -51,6 +51,7 @@ end
   end
 
 def uptasks
+
 	@tasks=params[:proj][:tasks_attributes]
 	@tasks.each do |i|
 	j=@tasks[i]
@@ -66,7 +67,7 @@ if @task.save
 		flash[:error] = 'Sorry Updation is Failed!'
 	end
 end
-redirect_to root_path
+redirect_to '/project/alltask'
 end
   
 def add_params

@@ -1,4 +1,6 @@
+
 <center><font face="ArialT" color="Red" size="4">Time Sheet</font>
+
 <%= nested_form_for @project, :url => {:action => "uptasks"} do |f| %>
 
 <table id="tasks"><tr><td><font face='Arial' color='blue' size='3'>ProjectTitle</font></td><td><font face='Arial' color='blue' size='3'>Title</font></td><td><font face='Arial' color='blue' size='3'>Description</font></td><td><font face='Arial' color='blue' size='3'>Duration</font></td></tr>
@@ -18,4 +20,10 @@
  	<%= f.link_to_add "add", :tasks,  "data-target" => "#tasks"%>	
 	
 	<%= f.submit "save" %>
-<% end %>
+	<br><%= link_to 'Back', {:controller => 'project', :action => 'index'} %>
+<% end %><br><br>
+<center>  <font face="ArialT" color="Red" size="4" ><b> All Tasks </b></font></center>
+<table border="2" cellspacing="4" cellpadding="4">
+<tr><td><font face="ArialT" color="blue" size="4">Prject Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><center><font face="ArialT" color="blue" size="4">Task</font></center></td></tr></font>
+<% @projects.each do |p| %>
+<tr><td><%= p.title %></td><td><%= p.desc %></td><td><table cellspacing="4" cellpadding="4"><tr><td><font face="ArialT" color="blue" size="4">Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><font face="ArialT" color="blue" size="4">Duration</font></td></tr><% p.tasks.each do |t| %><tr><td><%= t.title %></td><td><%= t.desc %></td><td><%= t.duration %></td></tr><% end %></table></td></tr><% end %></table>
