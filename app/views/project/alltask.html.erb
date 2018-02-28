@@ -1,0 +1,21 @@
+<center><font face="ArialT" color="Red" size="4">Time Sheet</font>
+<%= nested_form_for @project, :url => {:action => "uptasks"} do |f| %>
+
+<table id="tasks"><tr><td><font face='Arial' color='blue' size='3'>ProjectTitle</font></td><td><font face='Arial' color='blue' size='3'>Title</font></td><td><font face='Arial' color='blue' size='3'>Description</font></td><td><font face='Arial' color='blue' size='3'>Duration</font></td></tr>
+<%= f.fields_for :tasks, :wrapper => false do |task| %>
+	 <tr class="fields"><td> 
+<%= task.select :proj_id, options_for_select(Proj.all.map{|c| [c.title, c.id]}, task.object.proj_id), {}, {class: "form-control selectpicker", data: "live-search"} %></td><td>
+		<%= task.text_field :title %></td>
+
+	<td>
+		<%= task.text_field :desc %></td><td>	
+		<%= task.text_field :duration %></td><td><%= task.link_to_remove "Remove" %></td>
+
+</tr>
+
+<% end %>
+</table>
+ 	<%= f.link_to_add "add", :tasks,  "data-target" => "#tasks"%>	
+	
+	<%= f.submit "save" %>
+<% end %>

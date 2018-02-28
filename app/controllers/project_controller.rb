@@ -26,11 +26,15 @@ def update
 		render :update
 	end
 end
+def alltask
+	@project=Proj.all
+	@project=Proj.new
+end
 
 def destroy
-	@project=Proj.find(params[:id])
+	@project=Proj.find_by(params[:id])
 	flash[:alert] = 'not deleted!'
-	if @project.destroy
+	if @project.delete
 		flash[:alert] = 'Deleted'
 		
 	end		
@@ -43,15 +47,31 @@ def new
 	#@project=Proj.tasks.build
 end 
   def show
- 
 	@project=Proj.find_by(id: params[:id])
-
-
   end
 
+def uptasks
+	@tasks=params[:proj][:tasks_attributes]
+	@tasks.each do |i|
+	j=@tasks[i]
+	@task=Task.create(
+		:proj_id => j["proj_id"],
+		:title => j["title"],
+		:desc => j["desc"],
+		:duration => j["duration"]
+		)
+if @task.save
+		flash[:notice] = 'Your Details Successfully Updated!'
+	else
+		flash[:error] = 'Sorry Updation is Failed!'
+	end
+end
+redirect_to root_path
+end
   
 def add_params
-	params.require(:proj).permit(:title, :desc, :id, :tasks_attributes => [:id, :title, :desc, :duration, :_destroy])
+	params.require(:proj).permit(:title, :desc, :id, :tasks_attributes => [:id, :proj_id, :title, :desc, :duration, :_destroy] )
 
 end
+
 end

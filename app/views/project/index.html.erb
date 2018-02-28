@@ -1,7 +1,7 @@
 <center>
 <h1><font face="Arial" color="blue" size="6">Project Details</font></h1>
 <hr size="5" color="green"><br><br><b>
-<%= link_to "New Project", {:controller => 'project', :action => 'new'} %></b><br><br>
+<%= link_to "New Project", {:controller => 'project', :action => 'new'} %>&nbsp;&nbsp;&nbsp;<%= link_to "All Tasks", {:controller => 'project', :action => 'alltask'} %></b><br><br>
 <table cellpadding="7" cellspacing="7">
 <tr><td><font face="Arial" color="Red" size="3" style="bold"><b>Title</b></font></td><td><font face="Arial" color="Red" size="3"><b>Description</b></font></td></tr>
 <% @project.each do |f|
