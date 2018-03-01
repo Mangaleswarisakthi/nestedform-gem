@@ -20,11 +20,10 @@ def update
 	@project=Proj.find(params[:id])
 	if @project.update_attributes(add_params)
 		flash[:notice] = 'Your Details Successfully Updated!'
-		redirect_to root_path
 	else
 		flash[:error] = 'Sorry Updation is Failed!'
-		render :update
 	end
+	redirect_to root_path
 end
 def alltask
 	@project=Proj.new
@@ -51,12 +50,27 @@ end
   end
 
 def uptasks
-
+	taskdate=params[:obj][:taskdate]
 	@tasks=params[:proj][:tasks_attributes]
+	sum=0
+	@tasks.each do |i|
+	j=@tasks[i]
+	sum += j["duration"].to_i
+	end
+t=8-Task.where(:taskdate => taskdate).sum(:duration)	
+	if sum > 8 || sum > t
+		if sum > 8
+			flash[:notice] = 'Sry Only 8 hours should be Updated'
+		elsif sum > t
+			flash[:notice] ="Sry Already 8 Houres allocated for this day"
+		end
+		
+	else
 	@tasks.each do |i|
 	j=@tasks[i]
 	@task=Task.create(
 		:proj_id => j["proj_id"],
+		:taskdate => taskdate,
 		:title => j["title"],
 		:desc => j["desc"],
 		:duration => j["duration"]
@@ -67,11 +81,13 @@ if @task.save
 		flash[:error] = 'Sorry Updation is Failed!'
 	end
 end
+end
+
 redirect_to '/project/alltask'
 end
   
 def add_params
-	params.require(:proj).permit(:title, :desc, :id, :tasks_attributes => [:id, :proj_id, :title, :desc, :duration, :_destroy] )
+	params.require(:proj).permit(:title, :desc, :id, :tasks_attributes => [:id, :proj_id, :taskdate, :title, :desc, :duration, :_destroy] )
 
 end
 

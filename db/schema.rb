@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20180226101204) do
 
   create_table "tasks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "proj_id"
+    t.date "taskdate"
     t.string "title"
     t.string "desc"
     t.decimal "duration", precision: 4, scale: 2
