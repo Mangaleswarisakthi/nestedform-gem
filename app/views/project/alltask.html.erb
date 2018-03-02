@@ -1,16 +1,41 @@
 <script>
-	var sum = 0;
-var btn = document.getElementById("save");
-save.addEventListener("click", function(){
-	var inputEle= document.getElementsByName("duration");
-    for(var i=0;i<inputEle.length;i++){
-      //alert(inputEle[i].value);  //get each value
-      sum = sum + parseInt(inputEle[i].value); // If you want the sum(only for numbers else you will see a string as output)
-    }
-    alert("Total Sum = "+sum);
 
+$(document).ready(function(){
+
+  $("#ser").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#sdetail tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+	$("#total").on("click",function(event){
+		var v=0.0;
+		$(".sum").each(function(){
+			v += parseFloat(this.value);
+		});
+		if(v > 8)
+		{
+			alert("Only 8 Hours Work will be Updated");
+			event.preventDefault()
+		}
+		
+	});
 });
+
 </script>
+<style> 
+#tab, #flip {
+    padding: 5px;
+    text-align: center;
+    background-color: #ffb6c1;
+    border: solid 1px  #ff0000;
+}
+
+#tab {
+    padding: 50px;
+   
+}
+</style>
 <center><font face="ArialT" color="Red" size="4"><b>Time Sheet</b></font>
 <hr width="120" color="green" size="4"><br>
 <%= nested_form_for @project, :url => {:action => "uptasks"} do |f| %>
@@ -28,7 +53,7 @@ save.addEventListener("click", function(){
 
 	<td>
 		<%= task.text_field :desc %></td><td>	
-		<%= task.text_field :duration %></td><td><%= task.link_to_remove "Remove" %></td>
+		<%= task.text_field :duration, :class => "sum" %></td><td><%= task.link_to_remove "Remove" %></td>
 
 </tr>
 
@@ -37,12 +62,15 @@ save.addEventListener("click", function(){
 </table><br>
  	<%= f.link_to_add "add", :tasks,  "data-target" => "#tasks"%>	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<%= f.submit "save" %><br>
+	<%= f.submit "save", :id => "total" %><br>
 	<br><%= link_to 'Back', {:controller => 'project', :action => 'index'} %>
 <% end %><br><br>
-<center>  <font face="ArialT" color="Red" size="4" ><b> All Tasks </b></font></center>
 <hr size="5" color="green"><br><br>
-<table border="2" cellspacing="4" cellpadding="4">
+<input id="ser" type="text" placeholder="YYYY-MM-DD..">
+<br><br>
+<center>  <font face="ArialT" color="Red" size="4" ><b> <div id="flip">All Tasks</div> </b></font></center>
+<div id="tab"><center>
+<table border="2" cellspacing="5" cellpadding="5" bordercolor="red">
 <tr><td><font face="ArialT" color="blue" size="4">Project Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><center><font face="ArialT" color="blue" size="4">Task</font></center></td></tr></font>
-<% @projects.each do |p| %>
-<tr><td><%= p.title %><td><%= p.desc %></td><td><table cellspacing="4" cellpadding="4"><tr><td><font face="ArialT" color="blue" size="4">Date</font></td><td><font face="ArialT" color="blue" size="4">Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><font face="ArialT" color="blue" size="4">Duration</font></td></tr><% p.tasks.each do |t| %><tr></td><td><%= t.taskdate %></td><td><%= t.title %></td><td><%= t.desc %></td><td><%= t.duration %></td></tr><% end %></table></td></tr><% end %></table>
+<% @projects.each do |p| %><tbody id="sdetail">
+<tr><td><%= p.title %><td><%= p.desc %></td><td><table cellspacing="6" cellpadding="6"><tr><td><font face="ArialT" color="blue" size="4">Date</font></td><td><font face="ArialT" color="blue" size="4">Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><font face="ArialT" color="blue" size="4">Duration</font></td></tr><% p.tasks.each do |t| %><tr></td><td><%= t.taskdate %></td><td><%= t.title %></td><td><%= t.desc %></td><td><%= t.duration %></td></tr><% end %></table></td></tr></tbody><% end %></table></center></div>

@@ -16,7 +16,7 @@
 <%= nested_form_for @project, :url => "/project/#{@project.id}", method: "PUT" do |f| %>
 	   &nbsp;&nbsp;&nbsp;<font face="Arial" color="red"><%= "<div>#{@project.errors.full_messages.first}</div>".html_safe if @project.errors.any? %>   </font>
 	
-<table id="tasks"><tr><td><font face='Arial' color='blue' size='3'>Title</font></td><td><font face='Arial' color='blue' size='3'>Description</font></td><td><font face='Arial' color='blue' size='3'>Duration</font></td></tr>
+<table id="tasks"><tr><td><font face='Arial' color='blue' size='3'>Date</font></td><td><font face='Arial' color='blue' size='3'>Title</font></td><td><font face='Arial' color='blue' size='3'>Description</font></td><td><font face='Arial' color='blue' size='3'>Duration</font></td></tr>
 <%= f.fields_for :tasks, :wrapper => false do |task| %>
 	 <tr class="fields"><td><%= task.date_field :taskdate %></td><td>
 		<%= task.text_field :title %></td>
@@ -32,6 +32,8 @@
 </table>
  	<%= f.link_to_add "add", :tasks,  "data-target" => "#tasks"%>	
 	
-	<%= f.submit "save" %>
+	<%= f.submit "save" %> 
+
 <% end %>
+ <%= link_to 'Back', {:controller => 'project', :action => 'index'} %>
 
