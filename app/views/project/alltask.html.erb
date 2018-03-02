@@ -1,4 +1,16 @@
+<script>
+	var sum = 0;
+var btn = document.getElementById("save");
+save.addEventListener("click", function(){
+	var inputEle= document.getElementsByName("duration");
+    for(var i=0;i<inputEle.length;i++){
+      //alert(inputEle[i].value);  //get each value
+      sum = sum + parseInt(inputEle[i].value); // If you want the sum(only for numbers else you will see a string as output)
+    }
+    alert("Total Sum = "+sum);
 
+});
+</script>
 <center><font face="ArialT" color="Red" size="4"><b>Time Sheet</b></font>
 <hr width="120" color="green" size="4"><br>
 <%= nested_form_for @project, :url => {:action => "uptasks"} do |f| %>
