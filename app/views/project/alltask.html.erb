@@ -1,8 +1,12 @@
 
-<center><font face="ArialT" color="Red" size="4">Time Sheet</font>
-
+<center><font face="ArialT" color="Red" size="4"><b>Time Sheet</b></font>
+<hr width="120" color="green" size="4"><br>
 <%= nested_form_for @project, :url => {:action => "uptasks"} do |f| %>
-<%= date_field(:obj, :taskdate) %>
+<% if @taskdate %>
+	<%= date_field(:obj, :taskdate, :value => @taskdate) %>
+<% else %>
+	<%= date_field(:obj, :taskdate) %>
+<% end %><br><br>
 <table id="tasks"><tr><td><font face='Arial' color='blue' size='3'>ProjectTitle</font></td><td><font face='Arial' color='blue' size='3'>Title</font></td><td><font face='Arial' color='blue' size='3'>Description</font></td><td><font face='Arial' color='blue' size='3'>Duration</font></td></tr>
 <%= f.fields_for :tasks, :wrapper => false do |task| %>
 
@@ -18,14 +22,15 @@
 
 <% end %>
 
-</table>
+</table><br>
  	<%= f.link_to_add "add", :tasks,  "data-target" => "#tasks"%>	
-	
-	<%= f.submit "save" %>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%= f.submit "save" %><br>
 	<br><%= link_to 'Back', {:controller => 'project', :action => 'index'} %>
 <% end %><br><br>
 <center>  <font face="ArialT" color="Red" size="4" ><b> All Tasks </b></font></center>
+<hr size="5" color="green"><br><br>
 <table border="2" cellspacing="4" cellpadding="4">
-<tr><td><font face="ArialT" color="blue" size="4">Prject Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><center><font face="ArialT" color="blue" size="4">Task</font></center></td></tr></font>
+<tr><td><font face="ArialT" color="blue" size="4">Project Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><center><font face="ArialT" color="blue" size="4">Task</font></center></td></tr></font>
 <% @projects.each do |p| %>
-<tr><td><%= p.title %><td><%= p.desc %></td><td><table cellspacing="4" cellpadding="4"><tr><td><font face="ArialT" color="blue" size="4">Dtae</font></td><td><font face="ArialT" color="blue" size="4">Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><font face="ArialT" color="blue" size="4">Duration</font></td></tr><% p.tasks.each do |t| %><tr></td><td><%= t.taskdate %></td><td><%= t.title %></td><td><%= t.desc %></td><td><%= t.duration %></td></tr><% end %></table></td></tr><% end %></table>
+<tr><td><%= p.title %><td><%= p.desc %></td><td><table cellspacing="4" cellpadding="4"><tr><td><font face="ArialT" color="blue" size="4">Date</font></td><td><font face="ArialT" color="blue" size="4">Title</font></td><td><font face="ArialT" color="blue" size="4">Description</font></td><td><font face="ArialT" color="blue" size="4">Duration</font></td></tr><% p.tasks.each do |t| %><tr></td><td><%= t.taskdate %></td><td><%= t.title %></td><td><%= t.desc %></td><td><%= t.duration %></td></tr><% end %></table></td></tr><% end %></table>

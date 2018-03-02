@@ -50,40 +50,60 @@ end
   end
 
 def uptasks
-	taskdate=params[:obj][:taskdate]
+	@taskdate=params[:obj][:taskdate]
 	@tasks=params[:proj][:tasks_attributes]
 	sum=0
+	count=0
 	@tasks.each do |i|
 	j=@tasks[i]
 	sum += j["duration"].to_i
+	count+=1
 	end
-t=8-Task.where(:taskdate => taskdate).sum(:duration)	
+t=8-Task.where(:taskdate => @taskdate).sum(:duration)	
 	if sum > 8 || sum > t
 		if sum > 8
 			flash[:notice] = 'Sry Only 8 hours should be Updated'
 		elsif sum > t
-			flash[:notice] ="Sry Already 8 Houres allocated for this day"
+			if t > 0
+				flash[:notice] =" #{@taskdate} have Your Remaining hours #{t}"
+			else 
+				flash[:notice] ="Sry No Remaining Hours for You #{@taskdate}"
+			end
 		end
-		
+	@projects=Proj.all
+	@project=Proj.new()
+	count.times {@project.tasks.build}
+	count=0
+	@tasks.each do |i|
+		j=@tasks[i]
+		@project.tasks[count].proj_id = j["proj_id"]
+		@project.tasks[count].title = j["title"]
+		@project.tasks[count].desc = j["desc"]
+		@project.tasks[count].duration=j["duration"]
+		count+=1
+	end
+		count = 0
+		render 'alltask'		
 	else
 	@tasks.each do |i|
 	j=@tasks[i]
 	@task=Task.create(
 		:proj_id => j["proj_id"],
-		:taskdate => taskdate,
+		:taskdate => @taskdate,
 		:title => j["title"],
 		:desc => j["desc"],
 		:duration => j["duration"]
 		)
-if @task.save
+	if @task.save
 		flash[:notice] = 'Your Details Successfully Updated!'
 	else
 		flash[:error] = 'Sorry Updation is Failed!'
 	end
 end
-end
+
 
 redirect_to '/project/alltask'
+end
 end
   
 def add_params
