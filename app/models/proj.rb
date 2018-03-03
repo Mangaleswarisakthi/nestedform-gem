@@ -1,4 +1,5 @@
 class Proj < ApplicationRecord
+
 	has_many :tasks, dependent: :destroy
 #attr_accessor :duration, :tasks_attributes
 

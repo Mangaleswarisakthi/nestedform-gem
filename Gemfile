@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
  gem 'bcrypt', '~> 3.1.7'
 gem 'nested_form'
 gem 'jquery-rails'
+gem 'kaminari'
 
 
 # Use Capistrano for deployment

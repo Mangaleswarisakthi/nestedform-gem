@@ -4,6 +4,10 @@
 <%= link_to "New Project", {:controller => 'project', :action => 'new'} %>&nbsp;&nbsp;&nbsp;<%= link_to "All Tasks", {:controller => 'project', :action => 'alltask'} %></b><br><br>
 <table cellpadding="7" cellspacing="7">
 <tr><td><font face="Arial" color="Red" size="3" style="bold"><b>Title</b></font></td><td><font face="Arial" color="Red" size="3"><b>Description</b></font></td></tr>
+<%= paginate @project %>
+
+
+
 <% @project.each do |f|
 %>
 <tr><td><%= f.title %></td>
@@ -12,4 +16,5 @@
 <td><%= link_to "Edit", {:controller => 'project', :action => 'edit', :id => f.id} %></td>
 <td><%= link_to "Destroy", {controller: 'project', action: 'destroy'} %></td></tr>
 <% end %>
+
 </table></center>

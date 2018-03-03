@@ -1,6 +1,13 @@
 class ProjectController < ApplicationController
   def index
-	@project=Proj.all
+	#@project=Proj.order("title").page params[:page]
+	@project=Proj.order(:title).page(params[:page]).per(5)
+ ' if params[:title]
+    @project = Proj.tagged_with(params[:title])
+  else
+    @project = Proj.all
+  end
+  @project = @project.order(created_at: :desc).paginate(page:params[:page], per_page: 3 )'
   end
 def create
 	@project=Proj.new(add_params)
@@ -27,7 +34,9 @@ def update
 end
 def alltask
 	@project=Proj.new
-	@projects=Proj.all
+	@projects=Proj.order(:title).page(params[:page]).per(5)
+	
+
 end
 
 def destroy
